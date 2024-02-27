@@ -7,8 +7,8 @@ import solventek_project.controller.AppMain;
 public class CustomerServices implements UserService{
 
 
-	HealthCareServices healthCareServices = new HealthCareServices();
-	InsuranceServices insuraceServices = new InsuranceServices();
+	HealthCareServices healthCareServices = HealthCareServices.getInstance();
+	InsuranceServices insuraceServices =InsuranceServices.getInstance();
 
 	public void handleUserOperations() {
 

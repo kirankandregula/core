@@ -7,6 +7,8 @@ import java.util.Scanner;
 import solventek_project.entity.Product;
 
 public class InsuranceServices implements ProductService{
+	
+	 private static InsuranceServices instance;
 
 	static List<Product> insuranceProducts;
 
@@ -18,6 +20,13 @@ public class InsuranceServices implements ProductService{
 		insuranceProducts.add(new Product(3, "Insurace", "HealthInsurance", 500000));
 		insuranceProducts.add(new Product(4, "Insurance", "LifeInsurance", 10000000));
 	}
+	
+	 public static  InsuranceServices getInstance() {
+	        if (instance == null) {
+	            instance = new InsuranceServices();
+	        }
+	        return instance;
+	    }
 
 
 	@Override

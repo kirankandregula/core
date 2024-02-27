@@ -7,8 +7,11 @@ import java.util.Scanner;
 import solventek_project.entity.Product;
 
 public class HealthCareServices implements ProductService {
+	
+	private static HealthCareServices instance;
 
 	static List<Product> healthCareProducts;
+	
 
 	static {
 
@@ -19,6 +22,13 @@ public class HealthCareServices implements ProductService {
 		healthCareProducts.add(new Product(2, "Healthcare", "Dermatlology", 10000));
 
 	}
+	
+	  public static  HealthCareServices getInstance() {
+	        if (instance == null) {
+	            instance = new HealthCareServices();
+	        }
+	        return instance;
+	    }
 
 	
 

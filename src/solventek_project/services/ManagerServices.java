@@ -4,8 +4,8 @@ import java.util.Scanner;
 
 public class ManagerServices implements UserService{
 
-	HealthCareServices healthCareServices = new HealthCareServices();
-	InsuranceServices insuraceServices = new InsuranceServices();
+	HealthCareServices healthCareServices = HealthCareServices.getInstance();
+	InsuranceServices insuraceServices = InsuranceServices.getInstance();
 
 	public void handleUserOperations() {
 
@@ -16,7 +16,9 @@ public class ManagerServices implements UserService{
 			System.out.println("2. Remove Healthcare Product");
 			System.out.println("3. Update Insurance Product");
 			System.out.println("4. Remove Insurance Product");
-			System.out.println("5. Exit");
+			System.out.println("5. View HealthCare Prouduct");
+			System.out.println("6. View Insurance Products");
+			System.out.println("7. Exit");
 
 			int choice = scanner.nextInt();
 			scanner.nextLine(); // Consume newline
@@ -35,6 +37,10 @@ public class ManagerServices implements UserService{
 				insuraceServices.removeProduct();
 				break;
 			case 5:
+				healthCareServices.viewProducts();
+			case 6:
+				insuraceServices.viewProducts();
+			case 7:
 				return; // Exit the loop
 			default:
 				System.out.println("Invalid choice. Try again.");
