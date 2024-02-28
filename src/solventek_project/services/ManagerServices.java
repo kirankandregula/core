@@ -38,8 +38,10 @@ public class ManagerServices implements UserService{
 				break;
 			case 5:
 				healthCareServices.viewProducts();
+				break;
 			case 6:
 				insuraceServices.viewProducts();
+				break;
 			case 7:
 				return; // Exit the loop
 			default:

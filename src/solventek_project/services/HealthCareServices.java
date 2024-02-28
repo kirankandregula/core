@@ -1,6 +1,7 @@
 package solventek_project.services;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -35,9 +36,12 @@ public class HealthCareServices implements ProductService {
 	@Override
 	public void viewProducts() {
 		System.out.println("Healthcare Products:");
-		for (Product product : healthCareProducts) {
-			System.out.println(product);
-		}
+		
+		healthCareProducts.forEach(product->System.out.println(product));
+//		
+//		for (Product product : healthCareProducts) {
+//			System.out.println(product);
+//		}
 		
 	}
 
@@ -68,29 +72,29 @@ public class HealthCareServices implements ProductService {
 		Scanner scanner = new Scanner(System.in);
 		System.out.println("Enter the id of the product to update:");
 		int id = scanner.nextInt();
+		scanner.nextLine();
 
-		for (Product product : healthCareProducts) {
-			if (product.getId().equals(id)) {
-
-				System.out.println("Enter new name for " + product.getName() + ":");
-				String newName = scanner.nextLine();
-				scanner.nextLine(); // Consume newline
-
-				System.out.println("Enter new price for " + product.getName() + ":");
-				double newPrice = scanner.nextDouble();
-				scanner.nextLine(); // Consume newline
-
-				product.setPrice(newPrice);
-				product.setName(newName);
-				System.out.println("Product updated successfully:");
-				System.out.println(product);
-				return;
-			}
+		//using java 8 features
+		healthCareProducts.stream()
+		.filter(product-> product.getId().equals(id))
+		.findFirst()
+		.ifPresentOrElse(product->{
+			System.out.println("Enter the new name for" + product.getName());
+			String newName = scanner.nextLine();
 			
-		}
-
-		System.out.println("Product not found.");
-	
+			
+			
+			System.out.println("Enter the new price for"+ product.getName());
+			double newPrice = scanner.nextDouble();
+			scanner.nextLine();
+			
+			product.setName(newName);
+			product.setPrice(newPrice);
+			
+			System.out.println("Product Updated successfully");
+			System.out.println(product);
+			return;
+		}, ()->System.out.println("Product not found"));
 		
 	}
 
@@ -100,17 +104,23 @@ public class HealthCareServices implements ProductService {
 		System.out.println("Enter the id of the product to update:");
 		int id = scanner.nextInt();
 
-		for (Product product : healthCareProducts) {
-			if (product.getId().equals(id)) {
-				healthCareProducts.remove(product);
-				System.out.println("Product removed successfully.");
-				return;
-			}
-			
+//		for (Product product : healthCareProducts) {
+//			if (product.getId().equals(id)) {
+//				healthCareProducts.remove(product);
+//				System.out.println("Product removed successfully.");
+//				return;
+//			}
+//			
+//		}
+		//java8feature
+		boolean removed = healthCareProducts.removeIf(product->product.getId().equals(id));
+		
+		if(removed) {
+			System.out.println("Product removed successfully");
+		}else {
+			System.out.println("Product Not Found");
 		}
 	
-		System.out.println("Product not found.");
-		
 	}
 
 }

@@ -32,8 +32,10 @@ public class AdminServices implements UserService {
 				break;
 			case 3: 
 				healthCareServices.viewProducts();
+				break;
 			case 4:
 				insuraceServices.viewProducts();
+				break;
 			case 5:
 				return; // Exit the loop
 			default:

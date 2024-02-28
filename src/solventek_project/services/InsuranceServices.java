@@ -1,6 +1,7 @@
 package solventek_project.services;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -24,6 +25,7 @@ public class InsuranceServices implements ProductService{
 	 public static  InsuranceServices getInstance() {
 	        if (instance == null) {
 	            instance = new InsuranceServices();
+	           
 	        }
 	        return instance;
 	    }
@@ -32,9 +34,17 @@ public class InsuranceServices implements ProductService{
 	@Override
 	public void viewProducts() {
 		System.out.println("Insurance Products:");
-		for (Product product : insuranceProducts) {
-			System.out.println(product);
-		}
+		
+//		Iterator<Product> iterator = insuranceProducts.iterator();
+//		
+//		while(iterator.hasNext()) {
+//			System.out.println(iterator.next());
+//		}
+		
+//		for (Product product : insuranceProducts) {
+//			System.out.println(product);
+//		}
+		insuranceProducts.forEach(product->System.out.println(product));
 
 		
 	}
@@ -67,25 +77,46 @@ public class InsuranceServices implements ProductService{
 		Scanner scanner = new Scanner(System.in);
 		System.out.println("Enter the id of the product to update:");
 		int id = scanner.nextInt();
+		scanner.nextLine();
 
-		for (Product product : insuranceProducts) {
-			if (product.getId().equals(id)) {
-
-				System.out.println("Enter new name for " + product.getName() + ":");
-				String newName = scanner.nextLine();
-				scanner.nextLine(); // Consume newline
-
-				System.out.println("Enter new price for " + product.getName() + ":");
-				double newPrice = scanner.nextDouble();
-				scanner.nextLine(); // Consume newline
-
-				product.setPrice(newPrice);
-				product.setName(newName);
-				System.out.println("Product updated successfully:");
-				System.out.println(product);
-				return;
-			}}
+//		for (Product product : insuranceProducts) {
+//			if (product.getId().equals(id)) {
+//
+//				System.out.println("Enter new name for " + product.getName() + ":");
+//				String newName = scanner.nextLine();
+//				scanner.nextLine(); // Consume newline
+//
+//				System.out.println("Enter new price for " + product.getName() + ":");
+//				double newPrice = scanner.nextDouble();
+//				scanner.nextLine(); // Consume newline
+//
+//				product.setPrice(newPrice);
+//				product.setName(newName);
+//				System.out.println("Product updated successfully:");
+//				System.out.println(product);
+//				return;
+//			}}
 		
+		//using java8 features
+		insuranceProducts.stream()
+		.filter(product->product.getId().equals(id))
+		.findFirst()
+		.ifPresentOrElse((product->{
+			System.out.println("Enter new Name for "+product.getName()+"");
+			String newName = scanner.nextLine();
+	
+			
+			System.out.println("Enter new price for "+product.getPrice()+"");
+			double newPrice = scanner.nextDouble();
+			scanner.nextLine();
+			
+			product.setName(newName);
+			product.setPrice(newPrice);
+			
+			System.out.println("Product updated successfully");
+			System.out.println(product);
+			return;
+		}), ()->System.out.println("Product not found"));
 	}
 
 	@Override
@@ -94,15 +125,23 @@ public class InsuranceServices implements ProductService{
 		System.out.println("Enter the id of the product to update:");
 		int id = scanner.nextInt();
 
-		for (Product product : insuranceProducts) {
-			if (product.getId().equals(id)) {
-				insuranceProducts.remove(product);
-				System.out.println("Product removed successfully.");
-				return;
-			}
+//		for (Product product : insuranceProducts) {
+//			if (product.getId().equals(id)) {
+//				insuranceProducts.remove(product);
+//				System.out.println("Product removed successfully.");
+//				return;
+//			}
+//		}
+//
+//		System.out.println("Product not found.");
+		
+		boolean remove = insuranceProducts.removeIf(product->product.getId().equals(id));
+		
+		if(remove) {
+			System.out.println("Product removed successfully");
+		}else {
+			System.out.println("Product not found");
 		}
-
-		System.out.println("Product not found.");
 		
 	}
 
